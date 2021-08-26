@@ -164,3 +164,55 @@ export function registerApplication() {
 export { registerApplication } from "./applications/apps.js"
 export { start } from "./start.js"
 ```
+>先把目前的代码上传到github：https://github.com/Sunny-lucking/HowToBuildMySingleSpa/tree/2505bb604d0ed66973f6f81da3b8c226bdc76d11
+
+## 实现应用状态
+
+我们先看一下一个微应用一生中会经历的状态。
+
+为了更好的管理app，特地给app增加了状态，每个app共存在11个状态，其中每个状态的流转图如下：
+![](https://files.mdnice.com/user/3934/0d79169b-eb1b-4a89-ace4-82d9de82a345.png)
+
+每个状态的介绍如下
+![](https://files.mdnice.com/user/3934/474914e5-e94d-46aa-bb6e-db5ad8df8f7e.png)
+
+因此，我们专门在application文件夹下创建一个app.helper.js文件来定义这些状态
+
+我们实现最主要的八个状态就好了
+
+**app.helper.js**
+
+```js
+export const NOT_LOADED = "NOT_LOADED"; // 没有加载过
+export const LOADING_SOURCE_CODE = "LOADING_SOURCE_CODE"; // 加载原代码
+export const NOT_BOOTSTRAPPED = "NOT_BOOTSTRAPPED"; // 没有启动
+export const BOOTSTRAPPING = "BOOTSTRAPPING"; // 启动中
+export const NOT_MOUNTED = "NOT_MOUNTED"; // 没有挂载
+export const MOUNTING = "MOUNTING"; // 挂载中
+export const MOUNTED = "MOUNTED"; // 挂载完毕
+export const UNMOUNTING = "UNMOUNTING"; // 卸载中
+```
+接下来，在这个文件夹中实现两个方法，
+
+**isActive**判断判断该应用是否已被挂载（判断该应用的状态是否为MOUNTED即可）；
+
+**shouldBeActive**判断该应用是否应该被加载（判断当前的路径是否匹配即可）
+
+
+```js
+// 判断判断该应用是否已被挂载
+export function isActive(app) {
+    return app.status === MOUNTED;
+}
+
+// 判断该应用是否应该被加载
+export function shouldBeActive(app) {
+    return app.activeWhen(window.location)
+}
+```
+
+相信会有同学有疑问，我们定义app的时候，没有staus这个属性啊，没错这个是registerApplication方法里面给每一个应用添加上的。
+
+接下来我们就实现registerApplication方法。
+
+>先把目前的代码上传到github：
