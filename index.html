@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="#/a">App A</a>
+    <a href="#/b">App B</a>
+    <script src="https://cdn.jsdelivr.net/npm/single-spa@5.9.3/lib/umd/single-spa.min.js"></script>
+    <script>
+        let { registerApplication, start } = singleSpa;
+        let appA = {
+            bootstrap: [
+                async () => {
+                    console.log("APP A bootstrap ----1");
+                },
+                async () => {
+                    console.log("APP A bootstrap ----2");
+                }
+            ],
+            mount: async () => {
+                console.log("APP A mount");
+            },
+            unmount: async () => {
+                console.log("APP A unmount");
+            }
+        }
+        let appB = {
+            bootstrap: [
+                async () => {
+                    console.log("APP B bootstrap ----1");
+                },
+                async () => {
+                    console.log("APP B bootstrap ----2");
+                }
+            ],
+            mount: async () => {
+                console.log("APP B mount");
+            },
+            unmount: async () => {
+                console.log("APP B unmount");
+            }
+        }
+        registerApplication({
+            name: "APPA",
+            app: async () => { return appA },
+            activeWhen: location => location.hash == "#/a",
+            customProps: { author: "前端阳光" }
+        })
+        registerApplication(
+            "APPB",
+            async () => { return appB },
+            location => location.hash == "#/b",
+            { author: "前端阳光" }
+        )
+        start();
+    </script>
+</body>
+
+</html>
