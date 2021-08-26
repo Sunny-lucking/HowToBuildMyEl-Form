@@ -215,4 +215,76 @@ export function shouldBeActive(app) {
 
 接下来我们就实现registerApplication方法。
 
+>先把目前的代码上传到github：https://github.com/Sunny-lucking/HowToBuildMySingleSpa/tree/e191043b6d99814e95843941c8ac86bcd21276eb
+
+## 实现registerApplication方法
+
+
+```js
+import { NOT_LOADED } from "./app.helper.js";
+
+/**
+ * 
+ * @param {*} name 应用昵称
+ * @param {*} loadApp 加载应用
+ * @param {*} activeWhen 匹配路径
+ * @param {*} customProps 参数
+ */
+let app = [] // 将所有注册的应用都放在一起
+export function registerApplication(name, loadApp, activeWhen, customProps) {
+    let registeration;
+    if(typeof name === "object"){ // 参数是对象的形式
+        registeration = appName
+    }else {
+        registeration = {
+            name,
+            loadApp,
+            activeWhen,
+            customProps
+        }
+    }
+    // 添加状态
+    registeration.status = NOT_LOADED
+    app.push(registeration);
+}
+```
+如代码所示，用一个apps来将这些注册的应用到放在了一起。
+
+其中需要判断是以那种方式传参的，我们在前面介绍过，registerApplication支持两种传参方式，所以都要兼容。
+
+注册完之后，就需要加载应该被加载的应用了。
+
+加载应用的逻辑放在一个reroute方法里。
+
+
+```js
+let app = [] // 将所有注册的应用都放在一起
+export function registerApplication(name, loadApp, activeWhen, customProps) {
+    let registeration;
+    if(typeof name === "object"){ // 参数是对象的形式
+        registeration = appName
+    }else {
+        registeration = {
+            name,
+            loadApp,
+            activeWhen,
+            customProps
+        }
+    }
+    // 添加状态
+    registeration.status = NOT_LOADED
+    app.push(registeration);
+
+    reroute();// 重写路径，后续切换路由要再做这些事情
+}
+```
+之所以叫reroute，是因为每次路由更换的时候，都要执行reroute方法。
+
+由于reroute方法在registerApplication和start中都要用到，所以我们单纯创建一个文件来实现这个方法。
+
+**/navigation/reroute.js**
+
+
+![](https://files.mdnice.com/user/3934/8a77d6f9-e4d3-4f88-ae39-57d69f1660a1.png)
+
 >先把目前的代码上传到github：
