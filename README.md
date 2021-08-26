@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 准备工作
 1. 先创建一个项目文件夹：**howToBuildMySingleSpa**
 2. 再创建`index.html` 文件
