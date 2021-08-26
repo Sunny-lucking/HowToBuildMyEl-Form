@@ -11,9 +11,8 @@
 <body>
     <a href="#/a">App A</a>
     <a href="#/b">App B</a>
-    <script src="https://cdn.jsdelivr.net/npm/single-spa@5.9.3/lib/umd/single-spa.min.js"></script>
-    <script>
-        let { registerApplication, start } = singleSpa;
+    <script type="module">
+        import { registerApplication, start } from "./single-spa/single-spa.js";
         let appA = {
             bootstrap: [
                 async () => {
